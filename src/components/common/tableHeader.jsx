@@ -14,6 +14,17 @@ class TableHeader extends Component {
 
     onSort(sortColumn);
   }
+  renderSortIcon = column => {
+    const { path, order } = this.props.sortColumn;
+    const className = "fa fa-sort-";
+
+    if (column.path !== path) return null;
+    return order === "asc" ? (
+      <i className={className + "asc"} />
+    ) : (
+      <i className={className + "desc"} />
+    );
+  };
 
   render() {
     const { columns } = this.props;
@@ -21,12 +32,13 @@ class TableHeader extends Component {
     return (
       <thead>
         <tr>
-          {columns.map((column, index) => (
+          {columns.map(column => (
             <th
               onClick={() => this.raiseSort(column.path)}
               key={column.path || column.key}
+              className="clickable"
             >
-              {column.label}
+              {column.label} {this.renderSortIcon(column)}
             </th>
           ))}
         </tr>
